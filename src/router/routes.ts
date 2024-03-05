@@ -1,6 +1,25 @@
 // 这里想办法表上类型 RouteRecordRaw[]
 export default [
   {
+    path: '/center',
+    component: () => import('@/views/PersonCenter/PersonCenter.vue'),
+    meta: { show: true },
+    children: [
+      {
+        path: 'myorder',
+        component: () => import('@/views/PersonCenter/pages/MyOrder.vue')
+      },
+      {
+        path: 'grouporder',
+        component: () => import('@/views/PersonCenter/pages/GroupOrder.vue')
+      },
+      {
+        path: '/center',
+        component: () => import('@/views/PersonCenter/pages/MyOrder.vue')
+      }
+    ]
+  },
+  {
     path: '/home',
     component: () => import('@/views/ShopHome/ShopHome.vue'),
     meta: { show: true }

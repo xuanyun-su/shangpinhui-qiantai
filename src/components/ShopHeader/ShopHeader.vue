@@ -17,7 +17,7 @@
           </p>
         </div>
         <div class="typeList">
-          <a href="###">我的订单</a>
+          <RouterLink to="/center">我的订单</RouterLink>
           <RouterLink to="/shopcart">我的购物车</RouterLink>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
