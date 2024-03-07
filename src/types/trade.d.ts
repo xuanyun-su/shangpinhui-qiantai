@@ -17,7 +17,7 @@ export type detailArray = {
   couponInfoList: null
   createTime: Date | null
   hasStock: null
-  id: null
+  id: number
   imgUrl: string
   orderId: null
   orderPrice: number
@@ -67,4 +67,46 @@ export type PayInfomation = {
   orderId?: number
   resultCode?: string
   totalFee?: number
+}
+
+// 我的订单的信息
+export type myorderInfo = Partial<{
+  current: number
+  pages: Number
+  records: Array<orderone>
+  searchCount: boolean
+  size: number
+  total: number
+}>
+
+export type orderone = {
+  activityReduceAmount: null
+  consignee: string
+  cosigneeTel: string
+  couponInfo: null | string
+  createTime: Date
+  deliveryAddress: string
+  expireTime: Date
+  feightFee: null
+  feightFeeReduce: null
+  id: number
+  imgUrl: null | string
+  operateTime: null | Date
+  orderCommnet: string
+  orderDetailList: detailArray[]
+  orderDetailVoList: null | Array
+  orderStatus: string
+  orderStatusName: string
+  originalTotalAmount: null | number
+  outTradeNo: string
+  parentOrderId: null | number
+  paymentWay: string
+  processSatus: string
+  provinceId: null | number
+  refundableTime: null | Date
+  totalAmount: number
+  trackingNo: null | number
+  tradeBody: string
+  userId: number
+  wareId: null | number
 }

@@ -38,7 +38,7 @@
               minnum="1"
               class="itxt"
               :value="cart.skuNum"
-              @change="handler('change', $event.target.value * 1 - cart.skuNum, cart)"
+              @change="handler('change', Number(($event.target as HTMLInputElement).value) * 1 - cart.skuNum!, cart)"
             />
             <a href="javascript:void(0)" class="plus" @click="handler('add', 1, cart)">+</a>
           </li>
@@ -46,7 +46,7 @@
             <span class="sum">{{ cart.skuNum! * cart.skuPrice! }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet" @click="deleteCartByID(cart.skuId)">删除</a>
+            <a href="#none" class="sindelet" @click="deleteCartByID(cart.skuId!)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -64,13 +64,16 @@
         <a href="#none">清除下柜商品</a>
       </div>
       <div class="money-box">
-        <div class="chosed">已选择 <span>{{ totalNum }}</span>件商品</div>
+        <div class="chosed">
+          已选择 <span>{{ totalNum }}</span
+          >件商品
+        </div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" @click="router.push({path:'/trade'})">结算</a>
+          <a class="sum-btn" @click="router.push({ path: '/trade' })">结算</a>
         </div>
       </div>
     </div>
@@ -88,19 +91,26 @@ const router = useRouter()
 const shopcartStore = useShopCartStore()
 const totalPrice = computed(() => {
   let sum = 0
-  shopcartStore!.realcartList!.forEach((item) => {
-    //@ts-ignore
-    sum += item.skuNum! * item.skuPrice!
-  })
+  if (Array.isArray(shopcartStore.realcartList)) {
+    shopcartStore.realcartList.forEach((item) => {
+      sum += item.skuNum! * item.skuPrice!
+    })
+  }
   return sum
 })
-// @ts-ignore
-const totalNum = computed(()=> shopcartStore.realcartList?.reduce((prev,curr)=>curr.isChecked == 1?prev+1:prev,0)
-  
-)
+const totalNum = computed(() => {
+  if (Array.isArray(shopcartStore.realcartList)) {
+    return shopcartStore.realcartList?.reduce((prev, curr) => (curr.isChecked == 1 ? prev + 1 : prev), 0)
+  }
+  return 0
+})
 // 类型崩溃不想搞了
-// @ts-ignore
-const isAllCheck = computed(() => shopcartStore.realcartList?.every((item) => item.isChecked === 1))
+const isAllCheck = computed(() => {
+  if(Array.isArray(shopcartStore.realcartList)){
+    return shopcartStore.realcartList?.every((item) => item.isChecked === 1)
+  }
+  return false
+})
 onMounted(() => {
   shopcartStore.getCartList()
 })
@@ -110,16 +120,14 @@ const handler = throttle(async (type: string, num: number, cart: shopcartItem) =
     case 'add':
       break
     case 'minus':
-      // @ts-ignore
-      if (cart.skuNum <= 1) return
+      if (cart.skuNum! <= 1) return
       break
     case 'change':
       // 我认为这里不应该发请求 应该想办法绑定个事件 把输入框充值
       if (isNaN(num)) num = 0
       if (num < 1) num = 0
   }
-  // @ts-ignore
-  const data: shopcart = { skuID: cart.skuId, skuNum: num }
+  const data: shopcart = { skuID: cart.skuId!, skuNum: num }
   try {
     await shopcartStore.addOrUpdateSHopCart(data)
     shopcartStore.getCartList()
@@ -136,11 +144,9 @@ const deleteCartByID = async (skuID: number) => {
     alert(error)
   }
 }
-
-const updateChecked = async (cart: shopcartItem, event: Event) => {
-  // @ts-ignore
+const updateChecked = async (cart: shopcartItem, event: any) => {
   try {
-    await shopcartStore.updateCheckCartById(cart.skuId, event.target.checked ? 1 : 0)
+    await shopcartStore.updateCheckCartById(cart.skuId!, event.target.checked as number? 1 : 0)
     shopcartStore.getCartList()
   } catch (error: any) {
     alert(error.message)
@@ -156,8 +162,7 @@ const deleteAllCheckedCart = async () => {
   }
 }
 
-const updateAllcheceked = async (event: PointerEvent) => {
-  // @ts-ignore
+const updateAllcheceked = async (event: any) => {
   let checked = event.target.checked ? 1 : 0
 
   try {

@@ -1,6 +1,6 @@
 // 地址和订单
 
-import type { AddressInfo, PayInfomation, orderInfo, submitorderinfo } from '@/types/trade'
+import type { AddressInfo, PayInfomation, myorderInfo, orderInfo, submitorderinfo } from '@/types/trade'
 import http from './http'
 
 export const reqAddressInfo = () =>
@@ -14,3 +14,5 @@ export const reqSubmitOrder = (tradeNo:string,data:submitorderinfo)=>http.reques
 export const reqPayInfo = (orderId:number)=>http.request<PayInfomation>({url:`/payment/weixin/createNative/${orderId}`,method:'GET'})
 
 export const reqPayStatus = (orderId:number)=>http.request({url:`payment/weixin/queryPayStatus/${orderId}`,method:'GET'})
+// 获取个人中心数据
+export const reqmyOrderList = (page:string,limit:string )=>http.request<myorderInfo>({url:`/order/auth/${page}/${limit}`,method:"GET"})
