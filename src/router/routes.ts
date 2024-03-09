@@ -43,7 +43,10 @@ export default [
   {
     path: '/login',
     component: () => import('@/views/UserLogin/UserLogin.vue'),
-    meta: { show: false }
+    meta: { show: false },
+    props:(route:{query:{redirect:string}})=>
+      ({redirect:route.query.redirect})
+    
   },
   {
     path: '/register',
@@ -75,7 +78,12 @@ export default [
     path: '/trade',
     name: 'trade',
     component: () => import('@/views/OrderTrade/OrderTrade.vue'),
-    meta: { show: true }
+    meta: { show: true },
+    beforeEnter: (to:any, from:any) => {
+      console.log(to,from)
+      if(from.path != '/shopcart') return from.fullPath
+      return true
+    },
   },
   {
     path: '/pay',
@@ -84,7 +92,13 @@ export default [
     meta: { show: true },
     props: (route: { query: { orderId: number } }) => ({
       orderId: route.query.orderId
-    })
+    }),
+    beforeEnter: (to:any, from:any) => {
+      console.log(to,from)
+      // false 用不了 是个小bug
+      if(from.path != '/trade') return from.path
+      return true
+    },
   },
   {
     path: '/paysuccess',

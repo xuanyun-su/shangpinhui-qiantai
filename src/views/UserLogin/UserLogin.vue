@@ -66,21 +66,29 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/stores'
+import path from 'path';
 import { ref } from 'vue'
-import { useRouter } from 'vue-router';
-
+import { useRouter } from 'vue-router'
+const props = defineProps<{ redirect: string }>()
 const phone = ref<string>()
 const password = ref<string>()
 const userStore = useUserStore()
 const router = useRouter()
 const userLogin = async () => {
- try{
-  const data = { phone: phone.value!, password: password.value! }
-  phone.value && password.value &&await userStore.userLogin(data)
-  router.push({path:'/home'})
- }catch(error:any){
-  alert(error.message)
- }
+  try {
+    const data = { phone: phone.value!, password: password.value! }
+    phone.value && password.value && (await userStore.userLogin(data))
+    console.log(props.redirect)
+    if(props.redirect) 
+    {
+      console.log(props.redirect)
+      router.push({path:props.redirect})
+      return 
+    }
+    router.push({ path: '/home' })
+  } catch (error: any) {
+    alert(error.message)
+  }
 }
 </script>
 

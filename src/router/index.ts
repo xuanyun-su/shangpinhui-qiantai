@@ -25,6 +25,11 @@ router.beforeEach(async (to) => {
       sessionStorage.removeItem('token')
     }
     if (to.path == '/login' || to.path == '/register') return '/home'
+  }else{
+    const toPath = to.path
+    if(toPath.indexOf('/trade') != -1 || toPath.indexOf('/pay')!=-1 || toPath.indexOf('/center')!=-1) return {path:'/login',query:{redirect:toPath}}
+
+
   }
   // return to.fullPath
 })

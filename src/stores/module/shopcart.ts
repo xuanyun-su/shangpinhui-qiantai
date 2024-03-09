@@ -21,7 +21,7 @@ export const useShopCartStore = defineStore('shopcart', () => {
     if (cartList.value[0]) {
       return cartList.value[0].cartInfoList as shopcartItem
     }
-    return [{id:1} as shopcartItem]
+    return null
   })as ComputedRef<shopcartItem[]>;
   const addOrUpdateSHopCart = async (data: shopcart) => {
     const result = await reqAddOrUpdateShopCart(data.skuID, data.skuNum)

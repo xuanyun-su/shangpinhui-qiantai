@@ -18,6 +18,14 @@
 </template>
 
 <script setup lang="ts">
+// 这里应该配个守卫，之后放到routers里吧
+// import { onBeforeRouteUpdate } from 'vue-router';
+
+// onBeforeRouteUpdate((to,from)=>{
+//   console.log(to,from)
+//   if(from.path != '/pay') return false
+//   return true
+// })
 </script>
 
 <style lang="less" scoped>

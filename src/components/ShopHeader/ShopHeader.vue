@@ -19,7 +19,7 @@
         <div class="typeList">
           <RouterLink to="/center">我的订单</RouterLink>
           <RouterLink to="/shopcart">我的购物车</RouterLink>
-          <a href="###">我的尚品汇</a>
+          <RouterLink to="/home">我的尚品汇</RouterLink>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
           <a href="###">关注尚品汇</a>
